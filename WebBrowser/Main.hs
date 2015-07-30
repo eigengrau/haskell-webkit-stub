@@ -1,14 +1,12 @@
-module WebBrowser.Browser (
-  runBrowser
-  ) where
-
 import Graphics.UI.Gtk
 import Data.Char (toUpper)
-import Data.IORef 
+import Data.IORef
 import Graphics.UI.Gtk.WebKit.WebView
 import Graphics.UI.Gtk.WebKit.WebFrame
 import Graphics.UI.Gtk.WebKit.WebDataSource
 import Graphics.UI.Gtk.WebKit.WebSettings
+
+main = runBrowser
 
 runBrowser :: IO ()
 runBrowser = do
@@ -19,13 +17,13 @@ runBrowser = do
   widgetModifyBg window StateNormal (Color 6851 48114 6851)
   ntbk <- notebookNew
   containerAdd window ntbk
-  set ntbk [notebookScrollable := True, notebookTabPos := PosTop] 
+  set ntbk [notebookScrollable := True, notebookTabPos := PosTop]
   stls <- stockListIds
 
   tab <- tableNew 1 10 True
   button <- buttonNew
   buttonSetFocusOnClick button False
-  buttonSetRelief button ReliefNone  
+  buttonSetRelief button ReliefNone
   im <- imageNewFromStock stockClose (IconSizeUser 3)
   buttonSetImage button im
 
@@ -35,23 +33,23 @@ runBrowser = do
   tableAttachDefaults tab a 0 1 0 1
   tableAttachDefaults tab button 4 5 0 1
   img <- imageNewFromStock stockAdd (IconSizeUser 1)
-  widgetShowAll tab	
-	       
+  widgetShowAll tab
+
   newButton <- buttonNew
   buttonSetFocusOnClick newButton False
-  buttonSetRelief newButton ReliefNone  
+  buttonSetRelief newButton ReliefNone
   im1 <- imageNewFromStock stockAdd (IconSizeUser 1)
-  buttonSetImage newButton im1  
+  buttonSetImage newButton im1
 
-  lb1 <- labelNew (Just "Web Browser")  
-  lb2 <- labelNew (Just "In")  
+  lb1 <- labelNew (Just "Web Browser")
+  lb2 <- labelNew (Just "In")
   lb3 <- labelNew (Just "Haskell")
   srcfont <- fontDescriptionFromString "Courier Bold 60"
   widgetModifyFont lb1 (Just srcfont)
   widgetModifyFont lb2 (Just srcfont)
   widgetModifyFont lb3 (Just srcfont)
 
-  tableForMessage <- tableNew 3 1 True	
+  tableForMessage <- tableNew 3 1 True
   tableAttachDefaults tableForMessage lb1 0 1 0 1
   tableAttachDefaults tableForMessage lb2 0 1 1 2
   tableAttachDefaults tableForMessage lb3 0 1 2 3
@@ -61,13 +59,13 @@ runBrowser = do
   widgetModifyFg ntbk StateNormal (Color 48114 48114 6851)
   widgetModifyBase ntbk StateNormal (Color 48114 48114 6851)
   notebookSetShowBorder ntbk True
-  widgetShowAll ntbk		       
+  widgetShowAll ntbk
 
   cnt <- newIORef 1
 
   onClicked newButton $ do wv <- repeating ntbk cnt
-		   	   print "opened new tab"
-      
+                           print "opened new tab"
+
   --onSwitchPage ntbk (putStrLn . ((++)"Page: ") . show)
   widgetShowAll window
   onDestroy window mainQuit
@@ -75,11 +73,11 @@ runBrowser = do
   where
     fun a = a + 1
     but = do button <- buttonNew
-    	     buttonSetFocusOnClick button False
-  	     buttonSetRelief button ReliefNone  
-    	     im <- imageNewFromStock stockClose (IconSizeUser 3)
-  	     buttonSetImage button im
-	     return button
+             buttonSetFocusOnClick button False
+             buttonSetRelief button ReliefNone
+             im <- imageNewFromStock stockClose (IconSizeUser 3)
+             buttonSetImage button im
+             return button
 
 
 --repeating :: Notebook -> (IORef Int) -> IO ()
@@ -89,52 +87,52 @@ repeating ntbk cnt = do
   tab2 <- tableNew 1 5 False
   button2 <- buttonNew
   buttonSetFocusOnClick button2 False
-  buttonSetRelief button2 ReliefNone  
+  buttonSetRelief button2 ReliefNone
   im2 <- imageNewFromStock stockClose (IconSizeUser 1)
-  buttonSetImage button2 im2  
-  label2 <- labelNew (Just "label2")  			   
+  buttonSetImage button2 im2
+  label2 <- labelNew (Just "label2")
   pageName <- labelNew (Just "New Tab")
   tableAttachDefaults tab2 pageName 0 1 0 1
   tableAttachDefaults tab2 button2 4 5 0 1
 
   pageIcon <- imageNew
-			   
+
   v <- vBoxNew False 2
   tool <- toolbarNew
   table <- tableNew 1 20 True
-  h <- hBoxNew False 0  
+  h <- hBoxNew False 0
 
   go_back <- buttonNew
   img1 <- imageNewFromStock stockGoBack (IconSizeUser 2)
-  buttonSetImage go_back img1  
+  buttonSetImage go_back img1
   buttonSetFocusOnClick go_back False
   buttonSetRelief go_back ReliefNone
-  
+
   go_forward <- buttonNew
   img2 <- imageNewFromStock stockGoForward (IconSizeUser 2)
   buttonSetImage go_forward img2
   buttonSetFocusOnClick go_forward False
-  buttonSetRelief go_forward ReliefNone  
+  buttonSetRelief go_forward ReliefNone
 
   refresh <- buttonNew
   img3 <- imageNewFromStock stockRefresh (IconSizeUser 2)
   buttonSetImage refresh img3
   buttonSetFocusOnClick refresh False
-  buttonSetRelief refresh ReliefNone  
+  buttonSetRelief refresh ReliefNone
 
   address_bar <- entryNew
   sw  <- scrolledWindowNew Nothing Nothing
   wv  <- webViewNew
-  
+
   entrySetWidthChars address_bar 125
 
-  boxPackStartDefaults h go_back 
+  boxPackStartDefaults h go_back
   boxPackStart h go_forward PackNatural 0
   boxPackStart h refresh PackNatural 0
   boxPackStart h address_bar PackNatural 0
   widgetShowAll address_bar
   widgetShowAll h
-  toolbarAppendNewWidget tool h Nothing  
+  toolbarAppendNewWidget tool h (Nothing :: Maybe (String,String))
   boxPackStart v tool PackNatural 0
   boxPackStart v sw PackGrow 0
   set sw [ containerChild := wv ]
@@ -142,17 +140,17 @@ repeating ntbk cnt = do
   onClicked go_back $ do webViewGoBack wv
   onClicked go_forward $ do webViewGoForward wv
   onClicked refresh $ do webViewReload wv
-  onEntryActivate address_bar $ do 
+  onEntryActivate address_bar $ do
     text <- entryGetText address_bar
     let url = checkVal text
     webViewLoadUri wv url
 
   wv `on` createWebView $ browserViewNewTab ntbk cnt
-	
+
   wv `on` loadFinished $ \ frame -> do
-    webFrameGetUri frame >>= \uri -> do
+    (webFrameGetUri frame :: IO (Maybe String)) >>= \uri -> do
       ch <- webViewGetTitle wv
-      let (Just a) = if(ch == Nothing) then (Just "") else ch	
+      let (Just a) = if(ch == Nothing) then (Just "") else ch
       labelSetText pageName (take 8 a)
       --print a
 
@@ -160,7 +158,7 @@ repeating ntbk cnt = do
     -- Intercept new uri.
     webFrameGetUri frame >>= \uri -> do
       let (Just aa) = uri
-      --print uri	
+      --print uri
       if(uri == Nothing) then (putStrLn "nothing") else (if(take 7 aa == "http://") then (entrySetText address_bar (drop 7 aa)) else (if(take 7 aa == "file://") then (print "file") else (entrySetText address_bar aa)))
       back <- webViewCanGoBack wv
       forward <- webViewCanGoForward wv
@@ -169,26 +167,26 @@ repeating ntbk cnt = do
   widgetShowAll v
   cn <- readIORef cnt
   disp <- labelNew (Just (show cn))
-  widgetShowAll tab2	  
+  widgetShowAll tab2
   n <- notebookGetNPages ntbk
   pagenum3 <- notebookInsertPageMenu ntbk v tab2 label2 (n-1)
   widgetShowAll ntbk
   notebookSetCurrentPage ntbk pagenum3
-			   
+
   number <- notebookGetNPages ntbk
   --print number
   widgetShowAll ntbk
-			   
+
   ab <- onClicked button2 $ do --putStrLn "clicked"
-			       (Just pg) <- notebookPageNum ntbk v
-  	    	     	       --print pg
-	    	               notebookRemovePage ntbk pg
-  --putStrLn "new start" 
+                               (Just pg) <- notebookPageNum ntbk v
+                               --print pg
+                               notebookRemovePage ntbk pg
+  --putStrLn "new start"
   return wv
 
 
 browserViewNewTab ntbk cnt _ = do
-  webView <- repeating ntbk cnt	
+  webView <- repeating ntbk cnt
   return webView
 
 checkVal str = if(isHttp || isHttps || isFile) then str else ("http://" ++ str)

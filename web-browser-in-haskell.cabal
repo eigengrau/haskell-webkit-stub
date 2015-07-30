@@ -18,7 +18,7 @@ maintainer: Akash Fulchand Jagdhane <akashjagdhane@gmail.com>
 author: Akash Fulchand Jagdhane <akashjagdhane@gmail.com>
 build-type: Simple
 category: Browser
-library
+executable browser
   build-depends: base >=3 && < 5, gtk, webkit
-  exposed-modules:
-    WebBrowser.Browser
+  hs-source-dirs: .
+  main-is: WebBrowser/Main.hs
