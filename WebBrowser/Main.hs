@@ -80,7 +80,7 @@ main = do
          wv ← repeating ntbk cnt
          print "opened new tab"
 
-  --onSwitchPage ntbk (putStrLn . ((⧺)"Page: ") . show)
+  onSwitchPage ntbk (putStrLn ∘ (⧺ "Page: ") ∘ show)
   widgetShowAll window
   onDestroy window mainQuit
   mainGUI
@@ -182,7 +182,7 @@ repeating ntbk cnt = do
     -- Intercept new uri.
     webFrameGetUri frame ≫= \uri → do
       let Just aa = uri
-      --print uri
+      print uri
       if uri ≡ Nothing
         then putStrLn "nothing"
         else if take 7 aa ≡ "http://"
@@ -205,15 +205,15 @@ repeating ntbk cnt = do
   notebookSetCurrentPage ntbk pagenum3
 
   number ← notebookGetNPages ntbk
-  --print number
+  print number
   widgetShowAll ntbk
 
   ab ← onClicked button2 $ do
-                       --putStrLn "clicked"
+                       putStrLn "clicked"
                        Just pg ← notebookPageNum ntbk v
-                       --print pg
+                       print pg
                        notebookRemovePage ntbk pg
-  --putStrLn "new start"
+  putStrLn "new start"
   return wv
 
 
