@@ -1,7 +1,6 @@
 {-# LANGUAGE UnicodeSyntax #-}
 
 import           Control.Monad
-import           Control.Monad.Unicode
 import qualified Data.List                       as List
 import           Data.Maybe
 import           Graphics.UI.Gtk
@@ -36,7 +35,7 @@ main = do
         ]
 
   newTabButton ← buttonNew
-  onClicked newTabButton (browserViewNewTab notebook ≫ return ())
+  onClicked newTabButton (void $ browserViewNewTab notebook)
   buttonSetFocusOnClick newTabButton False
   buttonSetRelief       newTabButton ReliefNone
   newTabIcon ← imageNewFromStock stockAdd (IconSizeUser 1)
