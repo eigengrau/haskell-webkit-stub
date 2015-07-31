@@ -99,7 +99,7 @@ main = do
          return button
 
 
---repeating ∷ Notebook → (IORef Int) → IO ()
+repeating ∷ Notebook → IORef Int → IO WebView
 repeating ntbk cnt = do
 
   --putStrLn "new button clicked"
@@ -216,10 +216,11 @@ repeating ntbk cnt = do
   putStrLn "new start"
   return wv
 
-
+browserViewNewTab ∷ Notebook → IORef Int → α → IO WebView
 browserViewNewTab ntbk cnt _ = repeating ntbk cnt
 
 
+checkVal ∷ String → String
 checkVal str = if isHttp ∨ isHttps ∨ isFile
                  then str
                  else "http://" ⧺ str
