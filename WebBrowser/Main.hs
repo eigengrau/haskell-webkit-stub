@@ -24,7 +24,7 @@ main = do
            windowDefaultHeight ≔ 200
           ]
   windowMaximize window
-  widgetModifyBg window StateNormal colorBackground
+
 
   ntbk ← notebookNew
   containerAdd window ntbk
@@ -68,9 +68,6 @@ main = do
   tableAttachDefaults tableForMessage lb3 0 1 2 3
 
   pagenum2 ← notebookAppendPageMenu ntbk tableForMessage newButton label1
-  widgetModifyBg   ntbk StateNormal (Color 6851  48114 48114)
-  widgetModifyFg   ntbk StateNormal (Color 48114 48114 6851)
-  widgetModifyBase ntbk StateNormal (Color 48114 48114 6851)
   notebookSetShowBorder ntbk True
   widgetShowAll ntbk
 
@@ -85,10 +82,6 @@ main = do
   onDestroy window mainQuit
   mainGUI
   where
-
-    colorBackground, limeGreen ∷ Color
-    colorBackground = limeGreen
-    limeGreen       = Color 6851 48114 6851
 
     but = do
          button ← buttonNew
