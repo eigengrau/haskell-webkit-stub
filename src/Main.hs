@@ -20,19 +20,19 @@ main = do
 
   window ← windowNew
   set window [
-           windowTitle         ≔ "BagelBrowse",
-           windowDefaultWidth  ≔ 300,
-           windowDefaultHeight ≔ 200
-          ]
+      windowTitle         ≔ "BagelBrowse",
+      windowDefaultWidth  ≔ 300,
+      windowDefaultHeight ≔ 200
+    ]
   windowMaximize window
 
   notebook ← notebookNew
   notebookSetShowBorder notebook True
   containerAdd window notebook
   set notebook [
-         notebookScrollable ≔ True,
-         notebookTabPos     ≔ PosTop
-        ]
+      notebookScrollable ≔ True,
+      notebookTabPos     ≔ PosTop
+    ]
 
   newTabButton ← buttonNew
   onClicked newTabButton (void $ browserViewNewTab notebook)
@@ -96,16 +96,16 @@ browserViewNewTab notebook = do
   -- E. g., open link in new window.
   webView `on` createWebView $ const (browserViewNewTab notebook)
   webView `on` loadFinished $ const $ do
-      title ← webViewGetTitle webView
-      let title' = fromMaybe "" title
-      labelSetText pageTitle (take 8 title')
+    title ← webViewGetTitle webView
+    let title' = fromMaybe "" title
+    labelSetText pageTitle (take 8 title')
   webView `on` loadCommitted $ \frame → do
     uriVal ← webFrameGetUri frame ∷ IO (Maybe String)
     forM_ uriVal $ \uri → do
       entrySetText addressBar uri
-      back    ← webViewCanGoBack webView
+      back    ← webViewCanGoBack    webView
       forward ← webViewCanGoForward webView
-      widgetSetSensitive backButton back
+      widgetSetSensitive backButton    back
       widgetSetSensitive forwardButton forward
 
   --------------------------------------------------------------------
