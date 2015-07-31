@@ -58,7 +58,10 @@ browserViewNewTab notebook = do
 
   webView ← webViewNew
 
-  -- Navigation bar.
+  ---------------------
+  -- Navigation bar. --
+  ---------------------
+
   navBar ← hBoxNew False 0
 
   backButton    ← mkButton stockGoBack    2
@@ -78,7 +81,10 @@ browserViewNewTab notebook = do
     let url = checkVal text
     webViewLoadUri webView url
 
-  -- Page content.
+  -------------------
+  -- Page content. --
+  -------------------
+
   currentTab ← vBoxNew False 2
   scrolledWindow ← scrolledWindowNew Nothing Nothing
   boxPackStart currentTab navBar PackNatural 0
@@ -102,7 +108,10 @@ browserViewNewTab notebook = do
       widgetSetSensitive backButton back
       widgetSetSensitive forwardButton forward
 
-  -- Insert navigation bar & page content into notebook as new tab.
+  --------------------------------------------------------------------
+  -- Insert navigation bar & page content into notebook as new tab. --
+  --------------------------------------------------------------------
+
   tabLabel ← do
       tabHeader ← hBoxNew False 0
 
