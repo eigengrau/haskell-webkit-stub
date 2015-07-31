@@ -19,6 +19,9 @@ author: Akash Fulchand Jagdhane <akashjagdhane@gmail.com>
 build-type: Simple
 category: Browser
 executable browser
-  build-depends: base >=3 && < 5, gtk, webkit
+  build-depends: base >=3 && < 5,
+                 gtk,
+                 webkit,
+                 base-unicode-symbols >=0.2 && < 0.3
   hs-source-dirs: .
   main-is: WebBrowser/Main.hs
