@@ -1,0 +1,20 @@
+name: haskell-browser
+synopsis: A Gtk2 web browser stub.
+description: A Gtk2 web browser stub.
+version: 0.1.0.0
+license: GPL
+license-file: LICENSE
+maintainer: Sebastian Reuße <seb@wirrsal.net>
+author: Akash Fulchand Jagdhane <akashjagdhane@gmail.com>,
+        Sebastian Reuße <seb@wirrsal.net>
+build-type: Simple
+category: Browser
+cabal-version: >= 1.22
+executable browser
+  build-depends: base                 >=4.8  && <4.9,
+                 gtk                  >=0.13 && <0.14,
+                 webkit               >=0.13 && <0.14,
+                 base-unicode-symbols >=0.2  && <0.3
+  hs-source-dirs: src
+  main-is: Main.hs
+  default-language: Haskell2010
