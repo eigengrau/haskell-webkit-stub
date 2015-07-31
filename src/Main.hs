@@ -103,10 +103,10 @@ browserViewNewTab notebook = do
     uriVal ← webFrameGetUri frame ∷ IO (Maybe String)
     forM_ uriVal $ \uri → do
       entrySetText addressBar uri
-      back    ← webViewCanGoBack    webView
-      forward ← webViewCanGoForward webView
-      widgetSetSensitive backButton    back
-      widgetSetSensitive forwardButton forward
+      possibleBack    ← webViewCanGoBack    webView
+      possibleForward ← webViewCanGoForward webView
+      widgetSetSensitive backButton    possibleBack
+      widgetSetSensitive forwardButton possibleForward
 
   --------------------------------------------------------------------
   -- Insert navigation bar & page content into notebook as new tab. --
